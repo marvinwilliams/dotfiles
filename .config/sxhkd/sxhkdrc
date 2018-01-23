@@ -42,8 +42,8 @@ super + g
 #
 
 # set the window state
-super + {f,shift + f}
-	bspc node -t {floating, tiled}
+super + {shift + f, control + f, f}
+	bspc node -t {fullscreen, floating, tiled}
 
 # set the node private
 super + ctrl + p

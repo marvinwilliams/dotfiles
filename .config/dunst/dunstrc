@@ -23,22 +23,22 @@
     dmenu = /usr/bin/dmenu -p dunst:
     frame_width = 0
     frame_color = "#606060"
-    browser = /usr/bin/firefox
+    browser = /usr/bin/qutebrowser
 
 [urgency_low]
     background = "#404040"
     foreground = "#D7D0C7"
-    timeout = 5
+    timeout = 3
 
 [urgency_normal]
     background = "#303030"
     foreground = "#D7D0C7"
-    timeout = 1
+    timeout = 3
 
 [urgency_critical]
     background = "#202020"
     foreground = "#D7D0C7"
-    timeout = 1
+    timeout = 3
 
 [notify-send]
     appname = notify-send

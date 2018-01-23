@@ -5,43 +5,21 @@ transparent = #99000000
 invisible = #0000
 background = ${xrdb:background}
 foreground = ${xrdb:foreground}
-background-alt = #f72f343f
-foreground-alt = #f3f4f5
-foreground-dim = #676e7d
-primary = #ffb52a
-secondary = #e60053
-alert = #ff6600
-
-high = #268bd2
-high-alt = #0c2b41
-black = #000000
-red = #E06C75
-green = #98C379
-orange = #D19A66
-blue = #61AEEE
-magenta = #C678DD
-cyan = #56B6C2
-lightgray = #ABB2BF
-darkgray = #5C6370
-white = #FFFFFF
-dim = lightgray
-
-[settings]
-format-background = ${colors.background}
-format-foreground = ${colors.foreground}
-format-padding = 1
-
+foreground-alt = ${xrdb:color10}
+blue = ${xrdb:color10}
+yellow = ${xrdb:color11}
+red = ${xrdb:color9}
 [bar/top]
-monitor = ${env:MONITOR}
+monitor = HDMI-0
 
 width = 100%
-height = 22
+height = 28
 
 offset-x = 0
 offset-y = 0
 
 padding-left = 0
-padding-right = 15
+padding-right = 2
 
 module-margin = 1
 
@@ -54,27 +32,13 @@ background = ${colors.background}
 foreground = ${colors.foreground}
 separator =
 
-modules-left = bspwm xwindow
+modules-left = bspwm
 modules-center = date
-modules-right = cpu memory volume_icons music dropbox powermenu
-
-tray-position = right
-tray-padding = 5
-tray-detached = true
-tray-background = ${colors.background}
-
-underline-size = 2
-underline-color = ${colors.foreground}
-wm-restack = bspwm
-
-[module/xwindow]
-type = internal/xwindow
-;label = %title:0:30:...%
-label = %title:0:30:...%  %{B- -o -u}
+modules-right = system-usb-mount music volume cpu memory temperature wired
 
 [module/date]
 type = internal/date
-interval = 5.0
+interval = 5
 date = %b %d
 time = %l:%M %p
 label = %date%, %time%%{A}
@@ -82,32 +46,81 @@ label = %date%, %time%%{A}
 [module/bspwm]
 type = internal/bspwm
 
-pin-workspaces = false
+format = <label-state>
+label-focused-occupied = 
+label-focused-occupied-padding = 2
 
-format = <label-monitor> <label-state>
-label-monitor = "%name%:"
-label-focused = " %name% "
-label-focused-underline = ${colors.foreground}
-label-occupied = " %name% "
-label-occupied-foreground = ${colors.dim}
-label-empty =
+label-focused-urgent = 
+label-focused-urgent-padding = 2
+
+label-occupied = 
+label-occupied-foreground = ${colors.foreground-alt}
+label-occupied-padding = 2
+
+label-urgent = 
+label-urgent-foreground = ${colors.yellow}
+label-urgent-padding = 2
+
+label-monocle = " "
+label-monocle-foreground = ${colors.foreground-alt}
+label-tiled = " "
+label-tiled-foreground = ${colors.foreground-alt}
+label-fullscreen = " "
+label-fullscreen-foreground = ${colors.foreground-alt}
+label-floating = " "
+label-floating-foreground = ${colors.foreground-alt}
+label-pseudotiled = " "
+label-pseudotiled-foreground = ${colors.foreground-alt}
+label-locked = " "
+label-locked-foreground = ${colors.foreground-alt}
+label-sticky = " "
+label-sticky-foreground = ${colors.foreground-alt}
+label-private = "  "
+label-private-foreground = ${colors.foreground-alt}
 
 
 [module/memory]
 type = internal/memory
-interval = 3
-format = <label>
-label = RAM %gb_used%
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label = %percentage_used%%
 
+
+[module/temperature]
+interval = 2
+type = internal/temperature
+hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
+warn-temperature = 75
+
+format = <ramp> <label>
+label = %temperature%
+label-foreground = ${colors.foreground}
+
+format-warn = <ramp> <label-warn>
+label-warn = %temperature%
+label-warn-foreground = ${colors.foreground}
+
+ramp-0 = 
+ramp-0-foreground = ${colors.foreground-alt}
+ramp-1 = 
+ramp-1-foreground = ${colors.foreground-alt}
+ramp-2 = 
+ramp-2-foreground = ${colors.foreground-alt}
+ramp-3 = 
+ramp-3-foreground = ${colors.yellow}
+ramp-4 = 
+ramp-4-foreground = ${colors.red}
 
 [module/cpu]
 type = internal/cpu
 format = <label> <ramp-coreload>
-label = CPU %percentage%%
+label = 
+label-foreground = ${colors.foreground-alt}
 
 ramp-coreload-font = 3
-ramp-coreload-5-foreground = ${colors.red}
-ramp-coreload-6-foreground = ${colors.red}
+ramp-coreload-5-foreground = ${colors.yellow}
+ramp-coreload-6-foreground = ${colors.yellow}
 ramp-coreload-7-foreground = ${colors.red}
 ramp-coreload-0 = ▁
 ramp-coreload-1 = ▂
@@ -118,85 +131,55 @@ ramp-coreload-5 = ▆
 ramp-coreload-6 = ▇
 ramp-coreload-7 = █
 
+[module/wired]
+type = internal/network
+interface = enp5s0
+interval = 5
 
-[module/temperature]
-type = internal/temperature
-interval = 3
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+format-disconnected-prefix = " "
+format-disconnected-prefix-foreground = ${colors.red}
+label-disconnected = "not connected"
 
-thermal-zone = 1
-
-; Threshold temperature to display warning label
-warn-temperature = 75
-format = <ramp> <label>
-label = TEMP %temperature%
-label-warn = TEMP %temperature%
-label-warn-foreground = ${colors.red}
-ramp-0 =
-
+[module/system-usb-mount]
+type = custom/script
+exec = ~/.config/polybar/system-usb-mount.sh
+interval = 5
+click-left = ~/.config/polybar/system-usb-mount.sh --mount
+click-right = ~/.config/polybar/system-usb-mount.sh --unmount
 
 [module/volume]
 type = internal/volume
 
-format-volume-background = ${settings.format-background}
-format-volume-padding = ${settings.format-padding}
-format-muted-background = ${settings.format-background}
-format-muted-padding = ${settings.format-padding}
+format-volume-background = ${colors.background}
+format-muted-background = ${colors.background}
 
 master-mixer = Master
-; Use volume mapping (similar to amixer -M and alsamixer), where the increase in volume is linear to the ear
-; Default: false
-;mapping = true
 
-format-volume = <label-volume>
-
-label-muted-foreground = ${colors.dim}
-label-muted = VOL -
-label-volume = VOL %percentage%%
-
-
-[module/volume_icons]
-inherit = module/volume
-
+label-muted-foreground = ${colors.foreground-alt}
+ramp-volume-foreground = ${colors.foreground-alt}
 format-volume = <ramp-volume> <label-volume>
 label-muted = 
-label-volume = %percentage%%
+label-volume = %percentage:3%%
 
 ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
 
-[module/dropbox]
-type = custom/script
-exec = ~/.config/polybar/dropbox.sh
-interval = 1
-label = %output%
-format = <label>
-click-left = ~/.config/polybar/dropbox.sh toggle
-tail = true
-
 [module/music]
 type = custom/script
 interval = 2
 
-label = %output:0:45:...%
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label =  %output:0:45:...%
 exec = ~/.config/polybar/mpris.sh
 click-left = playerctl previous
 click-middle = playerctl play-pause
 click-right = playerctl next
 
-[module/powermenu]
-type = custom/menu
-
-format-spacing = 1
-
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close = 
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 =  
-menu-0-0-exec = reboot
-menu-0-1 =  
-menu-0-1-exec = shutdown -t now
+[global/wm]
+margin-top = 5
+margin-bottom = 5
