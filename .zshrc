@@ -9,6 +9,8 @@ alias zshrc="nvim ~/.zshrc"
 alias bspwmrc="nvim ~/.config/bspwm/bspwmrc"
 alias sxhkdrc="nvim ~/.config/sxhkd/sxhkdrc"
 alias initvim="nvim ~/.config/nvim/init.vim"
+alias sysstart="sudo systemctl start"
+alias sysenable="sudo systemctl enable"
 
 function extract() {
     if [ -f $1 ] ; then

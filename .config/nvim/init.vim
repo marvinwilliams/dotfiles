@@ -3,6 +3,9 @@ syntax on
 call plug#begin()
 
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'Shougo/denite.nvim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'sbdchd/neoformat'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -22,6 +25,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'w0rp/ale'
 Plug 'chrisbra/Colorizer'
+Plug 'robertmeta/nofrils'
 
 call plug#end()
 
@@ -34,6 +38,8 @@ set incsearch
 set smartcase
 set shiftwidth=4
 set tabstop=4
+set softtabstop=4
+set noexpandtab
 set scrolloff=2
 set smartindent
 

@@ -10,7 +10,7 @@ export _JAVA_OPTIONS='-Dsun.java2d.opengl=true'
 wmname LG3D
 
 
-compton &	
+compton &
 dunst &
 
 xset dpms
