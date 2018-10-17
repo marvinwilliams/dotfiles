@@ -1,0 +1,16 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sdb1 UUID=3297490b-7851-4ac7-abc2-fede22ccfa95
+LABEL=arch          	/         	ext4      	rw,relatime,data=ordered	0 1
+
+# /dev/sda1 UUID=b6962fa9-8888-4de8-827e-005f6699ba43
+LABEL=home          	/home     	ext4      	rw,relatime,data=ordered	0 2
+
+# /dev/sda2 UUID=0BE8DFD70B3AA8EC
+LABEL=misc          	/misc     	ntfs      	rw,nosuid,nodev,user_id=0,group_id=0,allow_other,blksize=4096	0 0
+
+# /dev/sda3 UUID=faaf1e8e-1d6c-4ec4-93d9-5e3e74426e3b
+LABEL=swap          	none      	swap      	defaults,pri=-2	0 0
+
