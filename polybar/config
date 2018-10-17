@@ -1,0 +1,185 @@
+[global/wm]
+
+[colors]
+transparent = #99000000
+invisible = #0000
+background = ${xrdb:background}
+foreground = ${xrdb:foreground}
+foreground-alt = ${xrdb:color10}
+blue = ${xrdb:color10}
+yellow = ${xrdb:color11}
+red = ${xrdb:color9}
+[bar/top]
+monitor = HDMI-0
+
+width = 100%
+height = 28
+
+offset-x = 0
+offset-y = 0
+
+padding-left = 0
+padding-right = 2
+
+module-margin = 1
+
+font-0 = DejaVu Sans:size=10
+font-1 = Font Awesome 5 Free:size=12
+font-2 = Font Awesome 5 Free:style=Solid:size=12
+font-3 = Font Awesome 5 Brands:size=12
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+separator =
+
+modules-left = bspwm
+modules-center = date
+modules-right = volume cpu memory temperature wired
+
+[module/date]
+type = internal/date
+interval = 5
+date = %b %d
+time = %l:%M %p
+label = %date%, %time%%{A}
+
+[module/bspwm]
+type = internal/bspwm
+
+format = <label-state>
+label-focused-occupied = 
+label-focused-occupied-padding = 2
+
+label-focused-urgent = 
+label-focused-urgent-padding = 2
+
+label-occupied = 
+label-occupied-foreground = ${colors.foreground-alt}
+label-occupied-padding = 2
+
+label-urgent = 
+label-urgent-foreground = ${colors.yellow}
+label-urgent-padding = 2
+
+label-monocle = " "
+label-monocle-foreground = ${colors.foreground-alt}
+label-tiled = " "
+label-tiled-foreground = ${colors.foreground-alt}
+label-fullscreen = " "
+label-fullscreen-foreground = ${colors.foreground-alt}
+label-floating = " "
+label-floating-foreground = ${colors.foreground-alt}
+label-pseudotiled = " "
+label-pseudotiled-foreground = ${colors.foreground-alt}
+label-locked = " "
+label-locked-foreground = ${colors.foreground-alt}
+label-sticky = " "
+label-sticky-foreground = ${colors.foreground-alt}
+label-private = "  "
+label-private-foreground = ${colors.foreground-alt}
+
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label = %percentage_used%%
+
+
+[module/temperature]
+interval = 2
+type = internal/temperature
+hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
+warn-temperature = 75
+
+format = <ramp> <label>
+label = %temperature%
+label-foreground = ${colors.foreground}
+
+format-warn = <ramp> <label-warn>
+label-warn = %temperature%
+label-warn-foreground = ${colors.foreground}
+
+ramp-0 = 
+ramp-0-foreground = ${colors.foreground-alt}
+ramp-1 = 
+ramp-1-foreground = ${colors.foreground-alt}
+ramp-2 = 
+ramp-2-foreground = ${colors.foreground-alt}
+ramp-3 = 
+ramp-3-foreground = ${colors.yellow}
+ramp-4 = 
+ramp-4-foreground = ${colors.red}
+
+[module/cpu]
+type = internal/cpu
+format = <label> <ramp-coreload>
+label = 
+label-foreground = ${colors.foreground-alt}
+
+ramp-coreload-font = 3
+ramp-coreload-5-foreground = ${colors.yellow}
+ramp-coreload-6-foreground = ${colors.yellow}
+ramp-coreload-7-foreground = ${colors.red}
+ramp-coreload-0 = ▁
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+ramp-coreload-7 = █
+
+[module/wired]
+type = internal/network
+interface = enp5s0
+interval = 5
+
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+format-disconnected-prefix = " "
+format-disconnected-prefix-foreground = ${colors.red}
+label-disconnected = "not connected"
+
+[module/system-usb-mount]
+type = custom/script
+exec = ~/.config/polybar/system-usb-mount.sh
+interval = 5
+click-left = ~/.config/polybar/system-usb-mount.sh --mount
+click-right = ~/.config/polybar/system-usb-mount.sh --unmount
+
+[module/volume]
+type = internal/volume
+
+format-volume-background = ${colors.background}
+format-muted-background = ${colors.background}
+
+master-mixer = Master
+
+label-muted-foreground = ${colors.foreground-alt}
+ramp-volume-foreground = ${colors.foreground-alt}
+format-volume = <ramp-volume> <label-volume>
+label-muted = 
+label-volume = %percentage:3%%
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+[module/music]
+type = custom/script
+interval = 2
+
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label =  %output:0:45:...%
+exec = ~/.config/polybar/mpris.sh
+click-left = playerctl previous
+click-middle = playerctl play-pause
+click-right = playerctl next
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5

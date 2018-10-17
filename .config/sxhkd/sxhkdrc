@@ -3,15 +3,15 @@
 #
 
 # terminal emulator
-super + Return
-	termite
+super + {_,shift} + Return
+	termite {_,--name float}
 
-super + o ; {q,s,v,r}
-	{qutebrowser,spotify,termite -e nvim,termite -e ranger}
+super + o ; {q, r, s, v}
+	{qutebrowser,termite -e ranger, spotify, termite -e nvim}
 
 # htop
 control + alt + Delete
-	termite -e htop
+	termite --name float -e htop
 
 # program launcher
 super + space
@@ -30,43 +30,51 @@ super + alt + Escape
 	bspc quit
 
 # close and kill
-super + {_,shift + }x
+super + {_,shift} + x
 	bspc node -{c,k}
-
-# swap the current node and the biggest node
-super + g
-	bspc node -s biggest
 
 #
 # state/flags
 #
 
 # set the window state
-super + {shift + f, control + f, f}
+super + {m, f, n}
 	bspc node -t {fullscreen, floating, tiled}
-
-# set the node private
-super + ctrl + p
-	bspc node -g private
 
 #
 # focus/swap
 #
 
 # focus the node in the given direction
-super + {_,shift + }{i,a,l,e}
-	bspc node -{f,s} {west,south,north,east}
+super + {l, e, a, i}
+	bspc node -f {north, east, south, west}
+
+super + comma
+	bspc monitor -f next
+
+super + period
+	bspc node -m next
+
+super + shift + {l, e, a, i}
+	bspc node -s {north, east, south, west}.local
+
+super + ctrl + {l, e, a, i}
+	bspc node -z {top 0 -20, right 20 0, bottom 0 20, left -20 0}
 
 # focus the node for the given path jump
 super + {p,b}
 	bspc node -f @{parent,brother}
 
-# focus the next/previous node in the current desktop
-super + {_,shift + }c
-	bspc node -f {next,prev}.local
+super + c
+	bspc node -f next.floating
+super + {r, s, g}
+	bspc node {-R 90, -C forward, -B}
 
 # focus or send to the given desktop
-super + {_,shift + }{m,comma,period,n,r,t}
+super + {_,shift + }{udiaeresis, odiaeresis, adiaeresis}
+	bspc {desktop -f,node -d} 'focused:^{1,2,3}'
+
+super + {_,shift + }{1, 2, 3, 4, 5, 6}
 	bspc {desktop -f,node -d} '^{1,2,3,4,5,6}'
 
 #
@@ -74,11 +82,11 @@ super + {_,shift + }{m,comma,period,n,r,t}
 #
 
 # preselect the direction
-super + ctrl + {i,a,l,e}
-	bspc node -p {west,south,north,east}
+super + {v, h}
+	bspc node -p {south,east}
 
 # preselect the ratio
-super + ctrl + {1-9}
+super + ctrl + {m, comma, period, n, r, t, h, g, f}
 	bspc node -o 0.{1-9}
 
 # cancel the preselection for the focused node
@@ -107,5 +115,5 @@ XF86AudioMute
 {XF86AudioRaiseVolume, XF86AudioLowerVolume}
 	amixer set Master 5%{+,-}
 
-super + {_,shift + }XF86HomePage
-	sudo systemctl {poweroff,reboot}
+{_,super +,shift +}XF86HomePage
+	sudo systemctl {suspend,poweroff,reboot}
