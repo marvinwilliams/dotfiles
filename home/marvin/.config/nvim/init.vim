@@ -1,16 +1,17 @@
-call plug#begin('.local/share/nvim/plugged')
-    Plug '/usr/bin/fzf'
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
-    Plug 'honza/vim-snippets'
-    Plug 'SirVer/ultisnips'
-    Plug 'itchyny/lightline.vim'
-    Plug 'junegunn/fzf.vim'
-    Plug 'lervag/vimtex'
-    Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-surround'
+call plug#begin('~/.local/share/nvim/plugged')
+Plug '~/.fzf'
+Plug 'autozimu/LanguageClient-neovim', {
+	    \ 'branch': 'next',
+	    \ 'do': 'bash install.sh',
+	    \ }
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'itchyny/lightline.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'lervag/vimtex'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -47,12 +48,18 @@ inoremap <F5> <Esc>:write<Bar>silent make<Bar>cwindow<CR><CR>
 nnoremap <F5> :write<Bar>silent make<Bar>cwindow<CR><CR>
 
 "Language Server
-nnoremap <silent> <leader>lh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> <leader>ld :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <leader>lr :call LanguageClient#textDocument_references()<CR>
-nnoremap <silent> <leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
-nnoremap <silent> <leader>lR :call LanguageClient#textDocument_rename()<CR>
-nnoremap <silent> <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+function SetLSPShortcuts()
+    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+endfunction()
 "Write as sudo
 noremap <leader>W :w !sudo tee % > /dev/null<CR>
 
@@ -111,15 +118,18 @@ let g:fzf_colors =
 
 "LSP
 let g:LanguageClient_serverCommands = {
-    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
-    \ 'python': ['pyls'],
-    \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
-    \ }
+	    \ 'cpp': ['clangd'],
+	    \ 'python': ['pyls'],
+	    \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
+	    \ }
 
-augroup LanguageClient_config
-  au!
-  au BufEnter * let b:Plugin_LanguageClient_started = 0
-  au User LanguageClientStarted let b:Plugin_LanguageClient_started = 1
-  au User LanguageClientStopped let b:Plugin_LanguageClient_stopped = 0
-  au CursorMoved * if b:Plugin_LanguageClient_started | call LanguageClient_textDocument_hover() | endif
+
+augroup LSP
+  autocmd!
+  autocmd FileType cpp,c,py,r call SetLSPShortcuts()
 augroup END
+"Deoplete
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#source('LanguageClient',
+            \ 'min_pattern_length',
+            \ 2)
