@@ -1,0 +1,13 @@
+{
+  "languageserver": {
+    "clangd": {
+      "command": "clangd",
+      "filetypes": ["c", "cpp", "objc", "objcpp"]
+    },
+    "r": {
+      "command": "R",
+      "args": ["--slave", "-e", "languageserver::run()"],
+      "filetypes": ["r"]
+    }
+  }
+}
