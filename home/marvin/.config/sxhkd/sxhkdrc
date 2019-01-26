@@ -4,22 +4,22 @@
 
 # terminal emulator
 super + {_,shift} + Return
-	termite {_,--name float}
+    termite {_,--name float}
 
-super + o ; {q, r, s, v}
-	{qutebrowser,termite -e ranger, spotify, termite -e nvim}
+super + o ; {f, r, s, v}
+    {firefox,termite -e ranger, spotify, termite -e nvim}
 
 # htop
 control + alt + Delete
-	termite --name float -e htop
+    termite --name float -e htop
 
 # program launcher
 super + space
-	rofi -show combi -combi-modi 'drun,window,run' -modi combi
+    rofi -show combi -combi-modi 'drun,window,run' -modi combi
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill -USR1 -x sxhkd
+    pkill -USR1 -x sxhkd
 
 #
 # bspwm hotkeys
@@ -27,11 +27,11 @@ super + Escape
 
 # quit bspwm normally
 super + alt + Escape
-	bspc quit
+    bspc quit
 
 # close and kill
 super + {_,shift} + x
-	bspc node -{c,k}
+    bspc node -{c,k}
 
 #
 # state/flags
@@ -39,7 +39,7 @@ super + {_,shift} + x
 
 # set the window state
 super + {m, f, n}
-	bspc node -t {fullscreen, floating, tiled}
+    bspc node -t {fullscreen, floating, tiled}
 
 #
 # focus/swap
@@ -47,35 +47,35 @@ super + {m, f, n}
 
 # focus the node in the given direction
 super + {l, e, a, i}
-	bspc node -f {north, east, south, west}
+    bspc node -f {north, east, south, west}
 
 super + comma
-	bspc monitor -f next
+    bspc monitor -f next
 
 super + period
-	bspc node -m next
+    bspc node -m next
 
 super + shift + {l, e, a, i}
-	bspc node -s {north, east, south, west}.local
+    bspc node -s {north, east, south, west}.local
 
 super + ctrl + {l, e, a, i}
-	bspc node -z {top 0 -20, right 20 0, bottom 0 20, left -20 0}
+    bspc node -z {top 0 -20, right 20 0, bottom 0 20, left -20 0}
 
 # focus the node for the given path jump
 super + {p,b}
-	bspc node -f @{parent,brother}
+    bspc node -f @{parent,brother}
 
 super + c
-	bspc node -f next.floating
+    bspc node -f next.floating
 super + {r, s, g}
-	bspc node {-R 90, -C forward, -B}
+    bspc node {-R 90, -C forward, -B}
 
 # focus or send to the given desktop
 super + {_,shift + }{udiaeresis, odiaeresis, adiaeresis}
-	bspc {desktop -f,node -d} 'focused:^{1,2,3}'
+    bspc {desktop -f,node -d} 'focused:^{1,2,3}'
 
 super + {_,shift + }{1, 2, 3, 4, 5, 6}
-	bspc {desktop -f,node -d} '^{1,2,3,4,5,6}'
+    bspc {desktop -f,node -d} '^{1,2,3,4,5,6}'
 
 #
 # preselect
@@ -83,19 +83,19 @@ super + {_,shift + }{1, 2, 3, 4, 5, 6}
 
 # preselect the direction
 super + {v, h}
-	bspc node -p {south,east}
+    bspc node -p {south,east}
 
 # preselect the ratio
 super + ctrl + {m, comma, period, n, r, t, h, g, f}
-	bspc node -o 0.{1-9}
+    bspc node -o 0.{1-9}
 
 # cancel the preselection for the focused node
 super + ctrl + space
-	bspc node -p cancel
+    bspc node -p cancel
 
 # cancel the preselection for the focused desktop
 super + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+    bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
 # move/resize
@@ -103,17 +103,17 @@ super + ctrl + shift + space
 
 # expand a window by moving one of its side outward
 super + w : {i,a,l,e,shift + i,shift + a,shift + l,shift + e}
-	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0, right -20 0,top 0 20,bottom 0 -20,left 20 0}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0, right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
 super + {Left,Down,Up,Right}
-	bspc node -v {-20 0,0 20,0 -20,20 0}
+    bspc node -v {-20 0,0 20,0 -20,20 0}
 
 XF86AudioMute
-    	amixer set Master toggle
+        amixer set Master toggle
 
 {XF86AudioRaiseVolume, XF86AudioLowerVolume}
-	amixer set Master 5%{+,-}
+    amixer set Master 5%{+,-}
 
 {_,super +,shift +}XF86HomePage
-	sudo systemctl {suspend,poweroff,reboot}
+    sudo systemctl {suspend,poweroff,reboot}
