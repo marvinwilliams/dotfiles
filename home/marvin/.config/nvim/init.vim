@@ -12,6 +12,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'lervag/vimtex'
 Plug 'Chiel92/vim-autoformat'
+Plug 'vimwiki/vimwiki'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -59,8 +60,8 @@ nmap <leader>lp <Plug>(coc-diagnostic-prev)
 noremap <leader>w :w !sudo tee % > /dev/null<CR>
 
 nnoremap <leader>wr :%s/<c-r>=expand("<cword>")<cr>//g<left><left>
-nnoremap <leader>ws dawwP
-nnoremap <leader>wS dawbP
+nnoremap <leader>wx dawwP
+nnoremap <leader>wX dawbP
 
 set completeopt=menuone,preview,longest
 set cursorline
@@ -92,6 +93,7 @@ set pumheight=10
 set noswapfile
 set suffixes=.o,.pdf,.a,.jpg,.png,.git
 set wildignore=.o,.pdf,.a,.jpg,.png,.git
+set wildmode=longest:full,full
 set autoread
 
 colorscheme apprentice
