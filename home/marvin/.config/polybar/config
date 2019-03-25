@@ -5,8 +5,8 @@ transparent = #99000000
 invisible = #0000
 background = ${xrdb:background}
 foreground = ${xrdb:foreground}
-foreground-alt = ${xrdb:color10}
-blue = ${xrdb:color10}
+foreground-alt = ${xrdb:color2}
+blue = ${xrdb:color12}
 yellow = ${xrdb:color11}
 red = ${xrdb:color9}
 [bar/top]
@@ -16,14 +16,14 @@ width = 100%
 height = 28
 
 offset-x = 0
-offset-y = 0
+offset-y = 2
 
 padding-left = 0
-padding-right = 2
+padding-right = 0
 
 module-margin = 1
 
-font-0 = DejaVu Sans:size=10
+font-0 = Source Code Sans:size=12
 font-1 = Font Awesome 5 Free:size=12
 font-2 = Font Awesome 5 Free:style=Solid:size=12
 font-3 = Font Awesome 5 Brands:size=12
@@ -34,7 +34,7 @@ separator =
 
 modules-left = bspwm
 modules-center = date
-modules-right = volume cpu memory temperature wired
+modules-right = volume cpu memory
 
 [module/date]
 type = internal/date
@@ -87,31 +87,6 @@ format-prefix-foreground = ${colors.foreground-alt}
 label = %percentage_used%%
 
 
-[module/temperature]
-interval = 2
-type = internal/temperature
-hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
-warn-temperature = 75
-
-format = <ramp> <label>
-label = %temperature%
-label-foreground = ${colors.foreground}
-
-format-warn = <ramp> <label-warn>
-label-warn = %temperature%
-label-warn-foreground = ${colors.foreground}
-
-ramp-0 = 
-ramp-0-foreground = ${colors.foreground-alt}
-ramp-1 = 
-ramp-1-foreground = ${colors.foreground-alt}
-ramp-2 = 
-ramp-2-foreground = ${colors.foreground-alt}
-ramp-3 = 
-ramp-3-foreground = ${colors.yellow}
-ramp-4 = 
-ramp-4-foreground = ${colors.red}
-
 [module/cpu]
 type = internal/cpu
 format = <label> <ramp-coreload>
@@ -130,18 +105,6 @@ ramp-coreload-4 = ▅
 ramp-coreload-5 = ▆
 ramp-coreload-6 = ▇
 ramp-coreload-7 = █
-
-[module/wired]
-type = internal/network
-interface = enp5s0
-interval = 5
-
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
-format-disconnected-prefix = " "
-format-disconnected-prefix-foreground = ${colors.red}
-label-disconnected = "not connected"
 
 [module/system-usb-mount]
 type = custom/script

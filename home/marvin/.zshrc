@@ -12,14 +12,12 @@ zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p
 zstyle ':completion:*' rehash true
 zstyle :compinstall filename '/home/marvin/.zshrc'
 
-autoload -Uz compinit promptinit up-line-or-beginning-search down-line-or-beginning-search
+autoload -Uz compinit promptinit
 compinit
 promptinit
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
 
-[[ -n "$key[Up]"   ]] && bindkey -- "$key[Up]"   up-line-or-beginning-search
-[[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
+PROMPT=' %F{blue}λ%f '
+RPROMPT='%F{white}%~ [%0(?.%F{green}.%F{red})%?%F{white}]%f'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source /usr/share/doc/pkgfile/command-not-found.zsh
