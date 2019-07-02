@@ -18,6 +18,14 @@ call plug#end()
 let mapleader = "\<Space>"
 let localleader = ","
 
+nnoremap <leader>rc :e $MYVIMRC<cr>
+inoremap {<Cr> {<CR>}<ESC>O
+
+"Make
+nnoremap <leader>mm :make<cr>
+nnoremap <leader>ma :make all<cr>
+nnoremap <leader>mc :make clean<cr>
+
 "Manage tabs
 nnoremap <leader>tc :tabnew<CR>
 nnoremap <leader>te :tabedit **/*
@@ -60,8 +68,6 @@ nmap <leader>lp <Plug>(coc-diagnostic-prev)
 noremap <leader>w :w !sudo tee % > /dev/null<CR>
 
 nnoremap <leader>wr :%s/<c-r>=expand("<cword>")<cr>//g<left><left>
-nnoremap <leader>wx dawwP
-nnoremap <leader>wX dawbP
 
 set completeopt=menuone,preview,longest
 set cursorline
@@ -80,7 +86,7 @@ set softtabstop=2
 set splitbelow
 set splitright
 set tabstop=4
-set termguicolors
+" set termguicolors
 set wildignorecase
 set list
 set lcs=tab:>·,trail:·,precedes:«,extends:»
@@ -95,6 +101,12 @@ set suffixes=.o,.pdf,.a,.jpg,.png,.git
 set wildignore=.o,.pdf,.a,.jpg,.png,.git
 set wildmode=longest:full,full
 set autoread
+
+
+let g:nord_italic = 1
+let g:nord_underline = 1
+let g:nord_italic_comments = 1
+let g:nord_uniform_diff_background = 1
 
 colorscheme apprentice
 let g:lightline = {
@@ -129,3 +141,5 @@ let g:fzf_colors =
 
 let g:tex_flavor='latex'
 autocmd FileType tex setlocal spell spelllang=de,en
+
+let g:vimwiki_list = [{'path': '~/vimwiki'}, {'path': '~/Development/master_thesis/'}]

@@ -16,9 +16,12 @@ autoload -Uz compinit promptinit
 compinit
 promptinit
 
-PROMPT=' %F{blue}λ%f '
-RPROMPT='%F{white}%~ [%0(?.%F{green}.%F{red})%?%F{white}]%f'
-
+if [[ -n $SSH_CONNECTION ]]; then
+  PROMPT=' %(!.%F{red}.%F{blue})░%f [%M] %(!.%F{red}.%F{blue})∼ %f'
+else
+  PROMPT=' %(!.%F{red}.%F{blue})░ ∼ %f'
+fi
+RPROMPT='%F{white}%~ [%1x: %0(?.%F{green}.%F{red})%?%F{white}]%f'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source /usr/share/doc/pkgfile/command-not-found.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
