@@ -3,7 +3,8 @@ allow_bold = true
 audible_bell = false
 clickable_url = true
 #dynamic_title = true
-font = Source Code Pro 12
+font = Fira Code 12
+# font = Source Code Pro 12
 #fullscreen = true
 #geometry = 640x480
 #icon_name = terminal
@@ -43,7 +44,7 @@ cursor_shape = block
 # special
 foreground      = #bcbcbc
 foreground_bold = #bcbcbc
-cursor          = #bcbcbc
+cursor          = #6c6c6c
 background      = #262626
 
 # black
@@ -79,7 +80,7 @@ color7  = #6c6c6c
 color15 = #ffffff
 
 [hints]
-font = Source Code Pro 12
+font = Fira Code 12
 #foreground = #dcdccc
 #background = #3f3f3f
 #active_foreground = #e68080

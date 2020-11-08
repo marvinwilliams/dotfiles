@@ -3,10 +3,11 @@
 xrandr --output HDMI-0 --primary --output DVI-1 --left-of HDMI-0
 
 xsetroot -cursor_name left_ptr
+feh --bg-fill /home/marvin/Pictures/forest_wallpaper.jpg
 
 bspc monitor HDMI-0 -s DVI-1
 
-#compton &
+picom &
 sxhkd -m 1 &
 dunst &
 polybar top &
