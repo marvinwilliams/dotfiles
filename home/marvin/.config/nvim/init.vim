@@ -9,11 +9,13 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'Chiel92/vim-autoformat'
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'chrisbra/Colorizer'
 Plug 'neovim/nvim-lspconfig'
 Plug 'preservim/tagbar'
+Plug 'lervag/wiki.vim'
+Plug 'lervag/wiki-ft.vim'
 call plug#end()
 
 packadd termdebug
@@ -29,7 +31,9 @@ nnoremap <leader>ct :!ctags -R<cr>
 nnoremap <leader>w :w !sudo tee % > /dev/null<CR>
 nnoremap <leader>wr :%s/<c-r>=expand("<cword>")<cr>//g<left><left>
 nnoremap <silent> <leader>cd :cd %:h<CR>
-tnoremap <ESC> <C-\><C-n>
+nnoremap <leader>pt "=strftime('%H:%M')<CR>p
+
+"tnoremap <ESC> <C-\><C-n>
 
 "Make
 nnoremap <leader>mm :make<cr>
@@ -41,7 +45,7 @@ nnoremap <leader>mi :make install<cr>
 nnoremap <leader>tc :tabnew<CR>
 nnoremap <leader>te :tabedit **/*
 nnoremap <leader>tf :tabfind *
-nnoremap <leader>tx :tabclose<CR>
+nnoremap <leader>tq :tabclose<CR>
 nnoremap <leader>to :tabonly<CR>
 nnoremap <leader>tn :tabnext<CR>
 nnoremap <leader>tp :tabprevious<CR>
@@ -175,8 +179,14 @@ let g:tex_flavor='latex'
 
 autocmd FileType tex setlocal spell spelllang=de,en
 
-let g:vimwiki_list = [{'path': '~/vimwiki'}, {'path': '~/Development/master_thesis/'}]
+" let g:vimwiki_list = [{'path': '~/vimwiki'}, {'path': '~/Development/master_thesis/'}]
 
+function! WikiRoot()
+  let l:local_wiki = finddir('wiki', ';./')
+  return !empty(l:local_wiki) ? l:local_wiki : '~/wiki'
+endfunction
+
+let g:wiki_root = 'WikiRoot'
 
 let g:netrw_banner = 0
 let g:netrw_browse_split = 4
@@ -206,8 +216,9 @@ let g:netrw_winsize = 20
 "set omnifunc=lsp#omnifunc
 
 lua << EOF
-require'nvim_lsp'.clangd.setup{}
-require'nvim_lsp'.bashls.setup{}
-require'nvim_lsp'.pyls.setup{}
+require 'lspconfig'.clangd.setup{}
+require 'lspconfig'.bashls.setup{}
+require 'lspconfig'.pyls.setup{}
+require 'lspconfig'.cmake.setup{}
 EOF
 set omnifunc=v:lua.vim.lsp.omnifunc
