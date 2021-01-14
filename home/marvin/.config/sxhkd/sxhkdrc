@@ -6,8 +6,8 @@
 super + {_,shift} + Return
     termite {_,--name float}
 
-super + o ; {f, r, s, v}
-    {firefox,termite -e ranger, spotify, termite -e nvim}
+super + o ; {f, s, v}
+    {firefox, spotify, termite -e nvim}
 
 # htop
 control + alt + Delete
@@ -15,7 +15,7 @@ control + alt + Delete
 
 # program launcher
 super + space
-    rofi -show combi -combi-modi 'drun,window,run' -modi combi
+    rofi -show combi -combi-modi 'drun,run' -modi combi
 
 # make sxhkd reload its configuration files:
 super + Escape

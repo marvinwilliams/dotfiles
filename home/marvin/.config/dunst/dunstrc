@@ -9,7 +9,7 @@
     show_age_threshold = -1
     word_wrap = yes
     ignore_newline = no
-    geometry = "250x30-10+30"
+    geometry = "250x30-15+50"
     transparency = 5
     idle_threshold = 120
     monitor = 0
@@ -23,7 +23,7 @@
     dmenu = /usr/bin/dmenu -p dunst:
     frame_width = 0
     frame_color = "#606060"
-    browser = /usr/bin/qutebrowser
+    browser = /usr/bin/firefox
 
 [urgency_low]
     background = "#404040"
@@ -42,4 +42,4 @@
 
 [notify-send]
     appname = notify-send
-    format = "<span weight='normal' letter_spacing='1000' color='#4E9FB1'>%s</span>\n%b"
+    format = "<span weight='normal' letter_spacing='1000' color='#D7D0C7'>%s</span>\n%b"

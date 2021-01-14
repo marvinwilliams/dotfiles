@@ -1,21 +1,25 @@
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'Chiel92/vim-autoformat'
+Plug 'chrisbra/Colorizer'
 Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'lervag/vimtex'
+Plug 'lervag/wiki-ft.vim'
+Plug 'lervag/wiki.vim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/lsp-status.nvim'
 Plug 'PontusPersson/pddl.vim'
+Plug 'preservim/tagbar'
+" Plug 'SirVer/ultisnips'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'Chiel92/vim-autoformat'
 " Plug 'vimwiki/vimwiki'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'chrisbra/Colorizer'
-Plug 'neovim/nvim-lspconfig'
-Plug 'preservim/tagbar'
-Plug 'lervag/wiki.vim'
-Plug 'lervag/wiki-ft.vim'
 call plug#end()
 
 packadd termdebug
@@ -80,16 +84,20 @@ nnoremap <leader>gl :Glog<CR>
 "nmap <leader>lp <Plug>(coc-diagnostic-prev)
 
 nnoremap <silent> <leader>lD    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> <leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <leader>ld    <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <leader>la    <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <silent> <leader>lh     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <leader>lh    <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <leader>li    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <leader>ls <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> <leader>lt   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> <leader>ls    <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> <leader>lt    <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> <leader>lr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> <leader>l0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> <leader>lw    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> <leader>lw    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> <leader>lW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <leader>lf    <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent> <leader>ln    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> <leader>lp    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> <leader>le    <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+nnoremap <silent> <leader>ll    <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 
 "Debug
 nnoremap <leader>dd :Termdebug<CR>i
@@ -107,7 +115,12 @@ nnoremap <leader>dP :Program<CR>
 nnoremap <leader>dS :Source<CR>
 nnoremap <leader>dG :Gdb<CR>
 
-set completeopt=menuone,preview,longest
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <silent> <c-space> <Plug>(completion_trigger)
+
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
 set cursorline
 set expandtab
 set hidden
@@ -144,8 +157,30 @@ set termguicolors
 colorscheme PaperColor
 set background=light
 
+function! LspStatus() abort
+    if luaeval('#vim.lsp.buf_get_clients() > 0')
+       let errors = luaeval("vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Error]])")
+       let warnings = luaeval("vim.lsp.diagnostic.get_count(vim.fn.bufnr('%'), [[Warning]])")
+       if errors == 0 && warnings == 0
+         return ''
+       else
+         return errors . ' ' . warnings . ' '
+       endif
+     endif
+     return ''
+endfunction
+
 let g:lightline = {
       \ 'colorscheme': 'PaperColor',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified' ], 
+      \             [ 'gitbranch', 'lsp_status' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \   'lsp_status': 'LspStatus'
+      \ },
       \ }
 
 "Plugin settings
@@ -214,11 +249,37 @@ let g:netrw_winsize = 20
 "  }
 "EOF
 "set omnifunc=lsp#omnifunc
+lua << END
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
+lsp_status.config({
+    indicator_errors = 'E',
+    indicator_warnings = 'W',
+    indicator_info = 'i',
+    indicator_hint = '?',
+    indicator_ok = 'Ok',
+  })
 
-lua << EOF
+local lspconfig = require('lspconfig')
+
+lspconfig.clangd.setup({
+  handlers = lsp_status.extensions.clangd.setup(),
+  init_options = {
+    clangdFileStatus = true
+  },
+  on_attach = lsp_status.on_attach,
+  capabilities = lsp_status.capabilities
+})
+
 require 'lspconfig'.clangd.setup{}
 require 'lspconfig'.bashls.setup{}
 require 'lspconfig'.pyls.setup{}
 require 'lspconfig'.cmake.setup{}
-EOF
+END
+
 set omnifunc=v:lua.vim.lsp.omnifunc
+autocmd User LspDiagnosticsChanged call lightline#update()
+autocmd BufEnter * lua require'completion'.on_attach()
+let g:completion_enable_snippet = 'vim-vsnip'
+let g:completion_confirm_key = "\<C-y>"
+let g:completion_trigger_keyword_length = 3

@@ -10,7 +10,7 @@ blue = ${xrdb:color12}
 yellow = ${xrdb:color11}
 red = ${xrdb:color9}
 [bar/top]
-monitor = HDMI-0
+monitor = DP-1
 
 width = 99%
 height = 20
@@ -18,8 +18,8 @@ height = 20
 offset-x = 0.5%
 offset-y = 5
 
-padding-left = 0
-padding-right = 0
+padding-left = 2
+padding-right = 2
 
 module-margin = 1
 

@@ -1,21 +1,21 @@
 #! /bin/sh
 
-xrandr --output HDMI-0 --primary --output DVI-1 --left-of HDMI-0
+xrandr --output DP-1 --primary --pos 2400x0 --output HDMI-1 --pos 0x405 --scale 1.25 --fb 6240x2160
 
 xsetroot -cursor_name left_ptr
-feh --bg-fill /home/marvin/Pictures/forest_wallpaper.jpg
+feh --bg-fill /home/marvin/Pictures/firewatch_wallpaper.jpg
 
-bspc monitor HDMI-0 -s DVI-1
+wmname LG3D
+bspc monitor DP-1 -s HDMI-1
 
-picom &
 sxhkd -m 1 &
 dunst &
 polybar top &
 
 xset b off
 
-bspc monitor HDMI-0 -d I II III
-bspc monitor DVI-1 -d I II III
+bspc monitor DP-1 -d I II III
+bspc monitor HDMI-1 -d I II III
 
 bspc config border_width         2
 bspc config window_gap       5
