@@ -1,32 +1,19 @@
+# set imap_check_subscribed
+# set imap_list_subscribed
+set mail_check = 5
+
+source "~/.config/neomutt/profiles/gmail"
+folder-hook $folder 'source ~/.config/neomutt/profiles/gmail'
+
+source "~/.config/neomutt/profiles/kit"
+folder-hook $folder 'source ~/.config/neomutt/profiles/owa'
+
+
 ###############
-# Identity
+# Sidebar
 #
-set realname = "Marvin Williams"
-set from = "marvinwilliams95@gmail.com"
-
-set folder = ~/Mail           # This has the shortcut '+' or '='
-set spoolfile = "+inbox"      # This has the shortcut '!'
-set record = "+sent"
-set trash = "+trash"
-set postponed = "+drafts"
-
-set imap_user = "marvinwilliams95@gmail.com"
-
-set imap_pass = "`bw get password Mutt`"
-
-set folder = imaps://marvinwilliams95@imap.gmail.com/
-set spoolfile = "+INBOX"
-
-mailboxes =INBOX
-
-unset record                # Gmail auto-stores in "+[Gmail].Sent Mail"
-unset trash                 # Unset, deletion will remove labels
-set postponed = "+[Gmail].Drafts"
-
-set mail_check = 60
-
-set smtp_url = "smtp://marvinwilliams95@smtp.gmail.com:587/"
-set smtp_pass = "`bw get password Mutt`"
+set sidebar_visible = yes
+set sidebar_next_new_wrap = yes
 
 ###############
 # Pager settings
@@ -53,10 +40,11 @@ auto_view text/html
 # Index settings
 #
 set quit = ask-yes
-set sort = threads
+set sort = reverse-date-received
 
-set header_cache= "~/.config/neomutt/hcache"
-set message_cachedir= "~/.config/neomutt/mcache"
+
+set header_cache= "~/.cache/neomutt/hcache"
+set message_cachedir= "~/.cache/neomutt/mcache"
 
 ###############
 # Message composition settings
@@ -76,13 +64,21 @@ set sendmail = "/usr/bin/msmtp"
 set query_command = "/usr/bin/lbdbq"
 
 ###############
-# GnuPG
+# Key bindings
 #
-unset crypt_use_gpgme
-source /usr/share/doc/neomutt/samples/gpg.rc
-set pgp_default_key = "30BE7F6C85430F2292D4C6FBEC11FF2C19C7495D"
-set crypt_opportunistic_encrypt
-set postpone_encrypt
+bind pager j next-line
+bind pager k previous-line
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
+bind pager g top
+bind pager G bottom
+bind attach,index g first-entry
+bind attach,index G last-entry
+
+
+###############
+# Colors
+#
 
 color progress color234 color241
 
