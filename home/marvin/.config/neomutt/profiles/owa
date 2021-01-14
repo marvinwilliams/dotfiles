@@ -1,0 +1,25 @@
+set realname = "???"
+
+set imap_user = '???@???.???'
+set imap_pass = '???'
+
+set from = $imap_user
+set use_from = yes
+
+set ssl_force_tls=yes
+set smtp_authenticators = "login"
+
+set folder = "???"
+set spoolfile = "+INBOX"
+set postponed = "+Drafts"
+set record = "+Sent Items"
+
+set smtp_url = "???"
+set smtp_pass = $imap_pass
+set hostname = "???"
+set signature= "???"
+named-mailboxes ??? =INBOX
+
+color status     brightgreen    blue
+
+account-hook $folder "set imap_user = ???@???.??? imap_pass = '???'"
