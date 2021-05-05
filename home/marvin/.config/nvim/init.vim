@@ -1,31 +1,52 @@
-call plug#begin('~/.local/share/nvim/plugged')
-Plug 'Chiel92/vim-autoformat'
-Plug 'chrisbra/Colorizer'
-Plug 'honza/vim-snippets'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
-Plug 'itchyny/lightline.vim'
-Plug 'junegunn/fzf.vim'
-Plug 'lervag/vimtex'
-Plug 'lervag/wiki-ft.vim'
-Plug 'lervag/wiki.vim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'nvim-lua/completion-nvim'
-Plug 'nvim-lua/lsp-status.nvim'
-Plug 'PontusPersson/pddl.vim'
-Plug 'preservim/tagbar'
-" Plug 'SirVer/ultisnips'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-" Plug 'vimwiki/vimwiki'
-call plug#end()
-
-packadd termdebug
+set autoread
+set completeopt=menuone,noinsert,noselect
+set cursorline
+set expandtab
+set hidden
+set incsearch
+set lazyredraw
+set lcs=tab:>·,trail:·,precedes:«,extends:»
+set list
+set mouse=a
+set nohlsearch
+set noshowmode
+set noswapfile
+set nowrap
+set number
+set pumheight=10
+set scrolloff=3
+set shiftwidth=2
+set shortmess+=c
+set sidescrolloff=3
+set signcolumn=yes
+set smartcase
+set softtabstop=2
+set splitbelow
+set splitright
+set suffixes=.o,.pdf,.a,.jpg,.png,.git
+set tabstop=4
+set termguicolors
+set undofile
+set wildignore=.o,.pdf,.a,.jpg,.png,.git
+set wildignorecase
+set wildmode=longest:full,full
 
 let mapleader = "\<Space>"
 let localleader = ","
+
+packadd! termdebug
+packadd! matchit
+
+let g:termdebug_wide=1
+
+let g:netrw_banner = 0
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 20
+
+
+colorscheme PaperColor
+set background=light
 
 "Misc
 nnoremap <leader>rc :e $MYVIMRC<cr>
@@ -33,7 +54,7 @@ inoremap {; {<CR>};<ESC>O
 inoremap {<CR> {<CR>}<ESC>O
 nnoremap <leader>ct :!ctags -R<cr>
 nnoremap <leader>w :w !sudo tee % > /dev/null<CR>
-nnoremap <leader>wr :%s/<c-r>=expand("<cword>")<cr>//g<left><left>
+nnoremap <leader>wr :%s/\<<c-r>=expand("<cword>")<cr>\>//g<left><left>
 nnoremap <silent> <leader>cd :cd %:h<CR>
 nnoremap <leader>pt "=strftime('%H:%M')<CR>p
 
@@ -41,6 +62,7 @@ nnoremap <leader>pt "=strftime('%H:%M')<CR>p
 
 "Make
 nnoremap <leader>mm :make<cr>
+nnoremap <leader>ml :!pdflatex %<cr>
 nnoremap <leader>ma :make all<cr>
 nnoremap <leader>mc :make clean<cr>
 nnoremap <leader>mi :make install<cr>
@@ -64,25 +86,14 @@ nnoremap <silent> <leader>fh :FZFCommands<CR>
 nnoremap <silent> <leader>fm :FZFMaps<CR>
 
 "Git
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gp :Gpush<CR>
-nnoremap <leader>gg :Gpull<CR>
-nnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gl :Glog<CR>
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gc :Git commit<CR>
+nnoremap <leader>gp :Git push<CR>
+nnoremap <leader>gg :Git pull<CR>
+nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gl :Gclog<CR>
 
-"Coc
-"nmap <leader>ld <Plug>(coc-definition)
-"nmap <leader>lr <Plug>(coc-rename)
-"nmap <leader>lf <Plug>(coc-format)
-"nmap <leader>lt <Plug>(coc-type-definition)
-"nmap <leader>lx <Plug>(coc-references)
-"nmap <leader>li <Plug>(coc-implementation)
-"nmap <leader>la <Plug>(coc-codeaction)
-"nmap <leader>lh <Plug>(coc-diagnostic-info)
-"nmap <leader>ln <Plug>(coc-diagnostic-next)
-"nmap <leader>lp <Plug>(coc-diagnostic-prev)
-
+"Lsp
 nnoremap <silent> <leader>lD    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <leader>ld    <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <leader>la    <cmd>lua vim.lsp.buf.code_action()<CR>
@@ -119,43 +130,7 @@ imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j
 imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 imap <silent> <c-space> <Plug>(completion_trigger)
 
-set completeopt=menuone,noinsert,noselect
-set shortmess+=c
-set cursorline
-set expandtab
-set hidden
-set incsearch
-set lazyredraw
-set noshowmode
-set number
-set scrolloff=3
-set sidescrolloff=3
-set shiftwidth=2
-set signcolumn=yes
-set smartcase
-set softtabstop=2
-set splitbelow
-set splitright
-set tabstop=4
-set wildignorecase
-set list
-set lcs=tab:>·,trail:·,precedes:«,extends:»
-set nowrap
-set nohlsearch
-set mouse=a
-set undofile
-set pumheight=10
-set noswapfile
-set suffixes=.o,.pdf,.a,.jpg,.png,.git
-set wildignore=.o,.pdf,.a,.jpg,.png,.git
-set wildmode=longest:full,full
-set autoread
-let g:termdebug_wide=1
-
-set termguicolors
-
-colorscheme PaperColor
-set background=light
+"Plugin settings
 
 function! LspStatus() abort
     if luaeval('#vim.lsp.buf_get_clients() > 0')
@@ -170,21 +145,6 @@ function! LspStatus() abort
      return ''
 endfunction
 
-let g:lightline = {
-      \ 'colorscheme': 'PaperColor',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified' ], 
-      \             [ 'gitbranch', 'lsp_status' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead',
-      \   'lsp_status': 'LspStatus'
-      \ },
-      \ }
-
-"Plugin settings
-"FZF
 augroup FzfFormat
   autocmd!
   autocmd FileType fzf set laststatus=0 noruler
@@ -223,33 +183,7 @@ endfunction
 
 let g:wiki_root = 'WikiRoot'
 
-let g:netrw_banner = 0
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 20
-
-"lua << EOF
-"  vim.lsp.add_filetype_config {
-"    name = "clangd";
-"    filetype = {"c", "cpp"};
-"    cmd = "clangd -background-index";
-"    capabilities = {
-"      offsetEncoding = {"utf-8", "utf-16"};
-"    };
-"    on_init = vim.schedule_wrap(function(client, result)
-"      if result.offsetEncoding then
-"        client.offset_encoding = result.offsetEncoding
-"      end
-"    end)
-"  }
-"  vim.lsp.add_filetype_config {
-"    name = "texlab";
-"    filetype = {"tex", "bib"};
-"    cmd = "texlab"
-"  }
-"EOF
-"set omnifunc=lsp#omnifunc
-lua << END
+lua << EOF
 local lsp_status = require('lsp-status')
 lsp_status.register_progress()
 lsp_status.config({
@@ -267,19 +201,19 @@ lspconfig.clangd.setup({
   init_options = {
     clangdFileStatus = true
   },
+  cmd = {"clangd", "--background-index",  "-std=c++17"},
   on_attach = lsp_status.on_attach,
   capabilities = lsp_status.capabilities
 })
 
-require 'lspconfig'.clangd.setup{}
 require 'lspconfig'.bashls.setup{}
 require 'lspconfig'.pyls.setup{}
 require 'lspconfig'.cmake.setup{}
-END
+require 'lspconfig'.r_language_server.setup{}
+EOF
 
-set omnifunc=v:lua.vim.lsp.omnifunc
-autocmd User LspDiagnosticsChanged call lightline#update()
+"autocmd User LspDiagnosticsChanged call lightline#update()
 autocmd BufEnter * lua require'completion'.on_attach()
-let g:completion_enable_snippet = 'vim-vsnip'
+" let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_confirm_key = "\<C-y>"
-let g:completion_trigger_keyword_length = 3
+let g:completion_enable_auto_popup = 0

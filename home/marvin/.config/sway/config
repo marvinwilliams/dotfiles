@@ -5,30 +5,40 @@ set $down a
 set $up l
 set $right e
 
-set $term termite
-# set $menu rofi -show combi -combi-modi 'drun,run' -modi combi | xargs swaymsg exec --
-set $menu termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf --layout=reverse | xargs -r swaymsg -t command exec'"
-for_window [app_id="^launcher$"] floating enable, border pixel 2
+set $term alacritty
+set $menu dmenu_run | xargs swaymsg exec --
+#set $menu termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf --layout=reverse | xargs -r swaymsg -t command exec'"
+#for_window [app_id="^launcher$"] floating enable, border pixel 2
 
 output * bg ~/Pictures/firewatch_wallpaper.jpg fill
-output DP-1 resolution 3840x2160 scale 1.25 pos 1920 0
-output HDMI-A-1 resolution 1920x1080 scale 1 pos 0 0
+output DP-3 resolution 1920x1080 scale 1 pos 0 360
+output eDP-1 resolution 1920x1080 scale 1 pos 4992 648
+output HDMI-A-1 resolution 3840x2160 scale 1.25 pos 1920 0
 
-default_border pixel 3
+default_border pixel 5
 default_floating_border pixel 3
 gaps outer 5
 gaps inner 3
+
+bindsym Print exec grim - | wl-copy
+bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
 
 input * {
   xkb_layout "de"
   xkb_variant "neo"
 }
+
+input "4176:1031:Yubico_YubiKey_OTP+FIDO+CCID" {
+  xkb_variant "qwerty"
+}
+
 input keyboard xkb_model "pc101"
 
-exec swayidle -w \
-        timeout 300 'swaylock -f -c 000000' \
-        timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-        before-sleep 'swaylock -f -c 000000'
+exec mako
+#exec swayidle -w \
+#        timeout 300 'swaylock -f -c 000000' \
+#        timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#        before-sleep 'swaylock -f -c 000000'
 
 bindsym $mod+Return exec $term
 
@@ -114,13 +124,16 @@ bindsym $mod+m fullscreen
 bindsym $mod+f floating toggle
 
 # Swap focus between the tiling area and the floating area
-bindsym $mod+c focus mode_toggle
+bindsym $mod+k focus mode_toggle
 
 # Move focus to the parent container
 bindsym $mod+p focus parent
 
-bindsym $mod+Shift+j move scratchpad
-bindsym $mod+j scratchpad show
+bindsym $mod+Shift+g move scratchpad
+bindsym $mod+g scratchpad show
+
+bindsym $mod+adiaeresis workspace next_on_output
+bindsym $mod+odiaeresis workspace prev_on_output
 
 mode "resize" {
     # left will shrink the containers width
@@ -162,10 +175,11 @@ mode "$mode_system" {
 }
 bindsym $mod+s mode "$mode_system"
 
-set $mode_open Open: (f) firefox, (s) spotify, (S) signal, (c) cura
+set $mode_open Open: (f) firefox, (s) spotify, (t) thunderbird, (S) signal, (c) cura
 mode "$mode_open" {
     bindsym f exec MOZ_ENABLE_WAYLAND=1 firefox, mode "default"
     bindsym s exec spotify, mode "default"
+    bindsym t exec thunderbird, mode "default"
     bindsym Shift+s exec signal, mode "default"
     bindsym c exec cura, mode "default"
 
@@ -180,18 +194,21 @@ bindsym $mod+XF86HomePage sudo systemctl shutdown
 bindsym Shift+XF86HomePage sudo systemctl reboot
 
 
+#bar {
+#    position top
+#
+#    # When the status_command prints a new line to stdout, swaybar updates.
+#    # The default just shows the current date and time.
+#    status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+#
+#    colors {
+#        statusline #ffffff
+#        background #323232
+#        inactive_workspace #32323200 #32323200 #5c5c5c
+#    }
+#}
 bar {
-    position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
+  swaybar_command waybar
 }
 
 include /etc/sway/config.d/*
