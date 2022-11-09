@@ -1,96 +1,60 @@
 {
-    "layer": "top",
-    "position": "top",
-    "height": 25,
-    "modules-left": ["sway/workspaces", "custom/right-arrow-dark", "sway/mode"],
-    "modules-center": ["clock"],
-    "modules-right": ["custom/left-arrow-dark",
-    "network", "custom/left-arrow-light",
-    "custom/left-arrow-dark", "pulseaudio", "custom/left-arrow-light",
-    "custom/left-arrow-dark", "cpu", "custom/left-arrow-light",
-    "custom/left-arrow-dark", "memory", "custom/left-arrow-light",
-    "custom/left-arrow-dark", "temperature", "custom/left-arrow-light",
-    "custom/left-arrow-dark", "battery", "custom/left-arrow-light",
-    "custom/left-arrow-dark", "tray"],
+  "gtk-layer-shell": true,
+  "position": "top",
+  "layer": "top",
+  "modules-left": ["sway/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["tray", "pulseaudio", "network", "battery"],
 
-    // Modules configuration
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": false,
+  },
+  "clock": {
+    "format": "{:%H:%M}",
+    "tooltip-format": "{:%H:%M %d.%m.%Y}"
+  },
+  "tray":{
+    "icon-size":16,
+    "spacing": 5
+  },
+  "pulseaudio": {
+    "tooltip": false,
+    "scroll-step": 5,
+    "format": "{icon} ",
+    "format-bluetooth": "{icon} ",
+    "format-muted": "",
+    "format-bluetooth-muted": " ",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "on-right-click": "pavucontrol",
+  },
 
-    "custom/left-arrow-dark": {
-      "format": "",
-      "tooltip": false
+  "network": {
+    "format": "睊 ",
+    "format-wifi": " ",
+    "format-ethernet": " ",
+    "tooltip-format-wifi": "{essid} ({ipaddr})",
+    "tooltip-format-ethernet": "{ipaddr}",
+    "tooltip-format-disconnected": "disconnected",
+    "tooltip-format-disabled": "disabled",
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
     },
-    "custom/left-arrow-light": {
-      "format": "",
-      "tooltip": false
-    },
-    "custom/right-arrow-dark": {
-      "format": "",
-      "tooltip": false
-    },
-    "custom/right-arrow-light": {
-      "format": "",
-      "tooltip": false
-    },
-    "sway/workspaces": {
-      "disable-scroll": true,
-      "all-outputs": false,
-      "format": "{name}",
-    },
-    "tray": {
-      "spacing": 10
-    },
-    "clock": {
-      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-      "format": "{:%H:%M %d.%m.%Y}"
-    },
-    "cpu": {
-      "format": "{usage}% ",
-      "tooltip": false
-    },
-    "memory": {
-      "format": "{}% "
-    },
-    "temperature": {
-      "thermal-zone": 0,
-      "critical-threshold": 80,
-      "format": "{temperatureC}°C ",
-    },
-    "battery": {
-      "states": {
-        "good": 95,
-        "warning": 30,
-        "critical": 15
-      },
-      "format": "{capacity}% {icon}",
-      "format-charging": "{capacity}% ",
-      "format-plugged": "{capacity}% ",
-      "format-icons": ["", "", "", "", ""]
-    },
-    "network": {
-      // "interface": "wlp2*", // (Optional) To force the use of this interface
-      "format-wifi": "{essid} ({signalStrength}%) ",
-      "format-ethernet": "{ipaddr}/{cidr} ",
-      "format-linked": " (No IP) ",
-      "format-disconnected": "Disconnected ⚠",
-      "format-alt": "{ipaddr}/{cidr}"
-    },
-    "pulseaudio": {
-      // "scroll-step": 1, // %, can be a float
-      "format": "{volume}% {icon} {format_source}",
-      "format-bluetooth": "{volume}% {icon} {format_source}",
-      "format-bluetooth-muted": " {icon} {format_source}",
-      "format-muted": " {format_source}",
-      "format-source": "{volume}% ",
-      "format-source-muted": "",
-      "format-icons": {
-        "headphone": "",
-        "hands-free": "",
-        "headset": "",
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": ["", "", ""]
-      },
-      "on-click": "pavucontrol"
-    }
+    "format": " {icon} ",
+    "format-discharging": "{icon} ",
+    "format-alt": "{capacity}%",
+    "format-icons": ["", "", "", "", ""]
+  },
 }
